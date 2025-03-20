@@ -1,1 +1,32 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header__container">
+    <!-- Logo -->
+    <div class="header__logo">
+      <a routerLink="/">StudioBooking</a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="header__nav desktop-nav">
+      <a routerLink="/studios" class="header__link">Studios</a>
+      <a routerLink="/bookings" class="header__link">Bookings</a>
+      <a routerLink="/contact" class="header__link">Contact</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="header__actions">
+      <button class="header__login">Login</button>
+      <!-- Mobile Menu Toggle -->
+      <button class="header__toggle mobile-only" (click)="toggleMenu()">
+        <span class="header__toggle-icon">&#9776;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div *ngIf="menuOpen" class="header__mobile-nav mobile-only">
+    <a routerLink="/studios" class="header__mobile-link" (click)="toggleMenu()">Studios</a>
+    <a routerLink="/bookings" class="header__mobile-link" (click)="toggleMenu()">Bookings</a>
+    <a routerLink="/contact" class="header__mobile-link" (click)="toggleMenu()">Contact</a>
+    <button class="header__mobile-login" (click)="toggleMenu()">Login</button>
+  </div>
+</header>

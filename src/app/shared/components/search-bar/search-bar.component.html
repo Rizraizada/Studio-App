@@ -1,1 +1,7 @@
-<p>search-bar works!</p>
+<input
+  type="text"
+  [(ngModel)]="searchQuery"
+  placeholder="Search studios..."
+  class="w-full p-2 border border-gray-300 rounded-lg"
+  (keyup)="onSearch()"
+/>

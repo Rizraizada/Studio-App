@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { StudioListComponent } from './features/studios/studio-list/studio-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'studios', pathMatch: 'full' }, // Redirect to studios by default
-  { path: 'studios', loadChildren: () => import('./features/studios/studios.module').then(m => m.StudiosModule) },
-  { path: 'bookings', loadChildren: () => import('./features/bookings/bookings.module').then(m => m.BookingsModule) },
-  { path: '**', redirectTo: 'studios' } // Wildcard route redirects to studios
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'studios', pathMatch: 'full' },
+      { path: 'studios', component: StudioListComponent }
+    ]
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule]  // This makes <router-outlet> available to AppModule
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

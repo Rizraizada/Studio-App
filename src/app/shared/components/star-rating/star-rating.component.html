@@ -1,1 +1,5 @@
-<p>star-rating works!</p>
+<div class="flex">
+  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="text-yellow-500">
+    {{ star <= rating ? '★' : '☆' }}
+  </span>
+</div>

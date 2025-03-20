@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-star-rating',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./star-rating.component.scss']
 })
 export class StarRatingComponent {
-
+  @Input() rating: number = 0;
 }

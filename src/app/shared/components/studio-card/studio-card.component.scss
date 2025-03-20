@@ -1,0 +1,90 @@
+.studio-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .studio-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .studio-name {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .studio-type {
+      font-size: 1rem;
+      color: #777;
+    }
+  }
+
+  .studio-location,
+  .studio-amenities,
+  .studio-price,
+  .studio-contact {
+    margin-bottom: 10px;
+
+    strong {
+      color: #555;
+    }
+  }
+
+  .studio-amenities ul {
+    padding-left: 20px;
+    list-style-type: disc;
+
+    li {
+      font-size: 0.9rem;
+      color: #666;
+    }
+  }
+
+  .studio-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #27ae60;
+  }
+
+  .studio-contact a {
+    color: #3498db;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .studio-actions {
+    display: flex;
+    justify-content: center;
+
+    .btn-book-now {
+      background-color: #27ae60;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #2ecc71;
+      }
+    }
+  }
+}

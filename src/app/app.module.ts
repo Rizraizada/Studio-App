@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
-import { HeaderComponent } from './layouts/header/header.component';
-import { FooterComponent } from './layouts/footer/footer.component';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-
-import { AppRoutingModule } from './app-routing.module'; // Import the routing module
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';  // Import SharedModule
+import { StudiosModule } from './features/studios/studios.module'; // Import feature module
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    MainLayoutComponent
-  ],
+    AppComponent
+   ],
   imports: [
     BrowserModule,
-    AppRoutingModule // Use the routing module here instead of RouterModule.forRoot(routes)
+    AppRoutingModule,
+    HttpClientModule,
+    RouterModule,
+    SharedModule,    // This makes header, footer, and main layout available
+    StudiosModule    // This makes StudioListComponent available
   ],
   providers: [],
   bootstrap: [AppComponent]

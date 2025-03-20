@@ -1,1 +1,26 @@
-<p>studio-card works!</p>
+<div class="bg-white rounded-lg shadow-md p-4">
+  <!-- Display studio name -->
+  <h2 class="text-lg font-semibold">{{ studio.Name }}</h2>
+
+  <!-- Display studio type -->
+  <p class="text-gray-500">{{ studio.Type }}</p>
+
+  <!-- Display location city and area -->
+  <p class="text-sm text-gray-600">
+    {{ studio.Location?.City }}, {{ studio.Location?.Area }}
+  </p>
+
+  <!-- Display price per hour -->
+  <p class="text-sm font-semibold text-green-600">{{ studio.PricePerHour }} BDT/hr</p>
+
+  <!-- Display the rating using the app-star-rating component -->
+  <app-star-rating [rating]="studio.Rating"></app-star-rating>
+
+  <!-- Book button -->
+  <button
+    class="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+    (click)="onBook()"
+  >
+    Book Now
+  </button>
+</div>

@@ -1,0 +1,116 @@
+// Header styling
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo a {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 1.5rem;
+
+    &.header__link {
+      color: #34495e;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+      &:hover {
+        color: #2980b9;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .header__login {
+      background-color: #2980b9;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: #2471a3;
+      }
+    }
+
+    .header__toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #34495e;
+    }
+  }
+
+  &__mobile-nav {
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 1rem;
+
+    .header__mobile-link {
+      padding: 0.5rem 0;
+      color: #34495e;
+      text-decoration: none;
+      font-size: 1rem;
+      border-bottom: 1px solid #ecf0f1;
+      &:last-child {
+        border: none;
+      }
+    }
+
+    .header__mobile-login {
+      margin-top: 0.5rem;
+      background-color: #2980b9;
+      color: #fff;
+      border: none;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: #2471a3;
+      }
+    }
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+  .header__mobile-nav {
+    display: flex;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none;
+  }
+}
