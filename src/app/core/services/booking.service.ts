@@ -9,45 +9,67 @@ export class BookingService {
   private bookingsKey = 'bookings';
   private bookingsSubject = new BehaviorSubject<Booking[]>(this.getBookings());
 
-  constructor() {}
+  constructor() {
+    console.log('BookingService initialized');
+  }
 
-  // Get all bookings from local storage or the initial list
   getBookings(): Booking[] {
     const storedBookings = localStorage.getItem(this.bookingsKey);
-    return storedBookings ? JSON.parse(storedBookings) : [];
+    const bookings = storedBookings ? JSON.parse(storedBookings) : [];
+    console.log('Fetched bookings from localStorage:', bookings);
+    return bookings;
   }
 
-  // Add a new booking to local storage
   addBooking(booking: Booking): boolean {
-    let bookings = this.getBookings();
-
-    // Check if the selected time slot is already booked
-    const isBooked = bookings.some(b =>
-      b.StudioId === booking.StudioId &&
-      b.Date === booking.Date &&
-      (
-        (booking.StartTime >= b.StartTime && booking.StartTime < b.EndTime) ||
-        (booking.EndTime > b.StartTime && booking.EndTime <= b.EndTime)
-      )
-    );
-
-    if (isBooked) {
-      return false; // Slot is already booked
+    if (!booking) {
+      console.error('Attempted to add undefined/null booking');
+      return false;
     }
 
-    // Add the new booking to the list
-    booking.Id = bookings.length + 1;
+    let bookings = this.getBookings();
+    console.log('Before adding, current bookings:', bookings);
+
+    // Ensure booking has an ID
+    booking.Id = bookings.length ? Math.max(...bookings.map(b => b.Id)) + 1 : 1;
+
+    // Add the booking to the array
     bookings.push(booking);
-    localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
+    console.log('After adding, updated bookings:', bookings);
 
-    // Update the BehaviorSubject so that the components using this service can get the new bookings list
-    this.bookingsSubject.next(bookings);
+    try {
+      // Save to localStorage
+      localStorage.setItem(this.bookingsKey, JSON.stringify(bookings));
 
-    return true;
+      // Verify if it saved
+      const storedBookings = localStorage.getItem(this.bookingsKey);
+      console.log('After saving to localStorage, data:', storedBookings);
+
+      // Update the subject
+      this.bookingsSubject.next(bookings);
+      return true;
+    } catch (error) {
+      console.error('Error saving booking to localStorage:', error);
+      return false;
+    }
   }
 
-  // Observable to emit changes in the bookings list
   getBookingsObservable() {
+    console.log('Bookings Observable requested');
     return this.bookingsSubject.asObservable();
+  }
+
+  private convertTimeToNumber(time: string): number {
+    const [hour, minutePart] = time.split(':');
+    const minute = parseInt(minutePart, 10);
+    const isPM = time.includes('PM');
+    let hourNumber = parseInt(hour, 10);
+
+    if (isPM && hourNumber !== 12) {
+      hourNumber += 12;
+    } else if (!isPM && hourNumber === 12) {
+      hourNumber = 0;
+    }
+
+    return hourNumber + minute / 60;
   }
 }

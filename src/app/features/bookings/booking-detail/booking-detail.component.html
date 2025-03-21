@@ -1,12 +1,13 @@
-<div *ngIf="booking">
-  <h2>Booking Details</h2>
-  <p><strong>User Name:</strong> {{ booking.User.Name }}</p>
-  <p><strong>Email:</strong> {{ booking.User.Email }}</p>
-  <p><strong>Studio ID:</strong> {{ booking.StudioId }}</p>
-  <p><strong>Date:</strong> {{ booking.Date }}</p>
+<div class="p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold mb-4">Booking Details</h2>
+  <p><strong>User Name:</strong> {{ booking.User?.Name || 'N/A' }}</p>
+  <p><strong>Email:</strong> {{ booking.User?.Email || 'N/A' }}</p>
+  <p><strong>Date:</strong> {{ booking.Date | date }}</p>
   <p><strong>Time:</strong> {{ booking.StartTime }} - {{ booking.EndTime }}</p>
-  <p><strong>Status:</strong> {{ booking.Status }}</p>
-</div>
-<div *ngIf="!booking">
-  <p>Booking not found.</p>
+  <p><strong>Status:</strong> <span class="px-2 py-1 rounded" [ngClass]="getStatusClass()">{{ booking.Status }}</span></p>
+
+  <div class="mt-6 flex space-x-4">
+    <button (click)="goBack()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back</button>
+    <button *ngIf="booking.Status === 'pending'" (click)="cancelBooking()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Cancel Booking</button>
+  </div>
 </div>

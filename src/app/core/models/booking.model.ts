@@ -1,9 +1,15 @@
-import { User } from '../../core/models/user.model';  // Import User if it's part of the Booking model
+export interface User {
+  Id: number;
+  Name?: string;
+  Email?: string;
+  // Add other user properties as needed
+}
 
 export interface Booking {
   Id: number;
-  User: User;  // Reference to the User object
   StudioId: number;
+  UserId?: number;  // Optional for backward compatibility
+  User?: User;     // Made optional to work with both formats
   Date: string;
   StartTime: string;
   EndTime: string;

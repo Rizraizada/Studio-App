@@ -1,32 +1,42 @@
-<div class="booking-list">
-  <h2 class="text-2xl font-semibold mb-4 text-center">Booking List</h2>
+<div class="p-6">
+  <h2 class="text-2xl font-semibold mb-4">My Bookings</h2>
 
-  <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-    <thead>
-      <tr class="bg-gray-100 text-gray-700">
-        <th class="py-3 px-6 text-left">User Name</th>
-        <th class="py-3 px-6 text-left">Email</th>
-        <th class="py-3 px-6 text-left">Studio ID</th>
-        <th class="py-3 px-6 text-left">Date</th>
-        <th class="py-3 px-6 text-left">Time</th>
-        <th class="py-3 px-6 text-left">Status</th>
-        <th class="py-3 px-6 text-left">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let booking of bookings" class="hover:bg-gray-50 transition duration-300">
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.User.Name }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.User.Email }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.StudioId }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.Date }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.StartTime }} - {{ booking.EndTime }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">{{ booking.Status }}</td>
-        <td class="py-3 px-6 border-b text-gray-700">
-          <button (click)="viewBookingDetails(booking.Id)" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none transition duration-200">
-            View Details
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="bookings.length === 0" class="text-center py-8">
+    <p class="text-gray-500">You don't have any bookings yet.</p>
+    <button routerLink="/studios" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Find Studios</button>
+  </div>
+
+  <div *ngIf="bookings.length > 0" class="overflow-x-auto">
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr class="bg-gray-200 text-gray-600 uppercase text-sm">
+          <th class="py-3 px-6 text-left">Date</th>
+          <th class="py-3 px-6 text-left">Time</th>
+          <th class="py-3 px-6 text-left">Studio</th>
+          <th class="py-3 px-6 text-left">User</th>
+          <th class="py-3 px-6 text-left">Email</th>
+          <th class="py-3 px-6 text-left">Status</th>
+          <th class="py-3 px-6 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-600 text-sm">
+        <tr *ngFor="let booking of bookings" class="border-b hover:bg-gray-100">
+          <td class="py-3 px-6 border-b text-gray-700">{{ booking.Date | date }}</td>
+          <td class="py-3 px-6 border-b text-gray-700">{{ booking.StartTime }}</td>
+          <td class="py-3 px-6 border-b text-gray-700">{{ getStudioName(booking.StudioId) }}</td>
+          <td class="py-3 px-6 border-b text-gray-700">{{ booking.User?.Name || 'N/A' }}</td>
+          <td class="py-3 px-6 border-b text-gray-700">{{ booking.User?.Email || 'N/A' }}</td>
+          <td class="py-3 px-6 border-b text-gray-700">
+            <span class="px-2 py-1 rounded" [ngClass]="getStatusClass(booking.Status)">{{ booking.Status }}</span>
+          </td>
+          <td class="py-3 px-6 border-b">
+            <div class="flex space-x-2">
+              <button (click)="viewBooking(booking)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">View</button>
+              <button *ngIf="booking.Status === 'pending'" (click)="cancelBooking(booking)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Cancel</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

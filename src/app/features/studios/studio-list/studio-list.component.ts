@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudioService } from '../../../core/services/studio.service';
 import { Studio } from '../../../core/models/studio.model';
+import { BookingService } from '../../../core/services/booking.service';
+import { Booking, User } from '../../../core/models/booking.model';
 
 @Component({
   selector: 'app-studios',
@@ -10,8 +12,9 @@ import { Studio } from '../../../core/models/studio.model';
 export class StudioListComponent implements OnInit {
   studios: Studio[] = [];
   filteredStudios: Studio[] = [];
+  displayedStudios: Studio[] = []; // New array for displayed studios
   currentPage: number = 1;
-  itemsPerPage: number = 9;
+  itemsPerPage: number = 6; // Changed from 9 to 6 studios per page
   totalPages: number = 1;
 
   // Manage popup visibility and data
@@ -23,7 +26,7 @@ export class StudioListComponent implements OnInit {
   selectedTime: string = '';
   message: string = '';
 
-  constructor(private studioService: StudioService) {}
+  constructor(private studioService: StudioService, private bookingService: BookingService) {}
 
   ngOnInit(): void {
     this.studioService.getStudios().subscribe((data: any) => {
@@ -39,6 +42,7 @@ export class StudioListComponent implements OnInit {
     this.filteredStudios = this.studios.filter(studio =>
       studio.Location.Area.toLowerCase().includes(query.toLowerCase())
     );
+    this.currentPage = 1; // Reset to first page when searching
     this.updatePagination();
     this.updateStudiosForCurrentPage();
   }
@@ -52,6 +56,7 @@ export class StudioListComponent implements OnInit {
       );
       return distance <= radius;
     });
+    this.currentPage = 1; // Reset to first page when searching
     this.updatePagination();
     this.updateStudiosForCurrentPage();
   }
@@ -64,28 +69,54 @@ export class StudioListComponent implements OnInit {
 
   // Handle the booking confirmation
   bookStudio(): void {
-    if (this.userName && this.userEmail && this.selectedDate && this.selectedTime) {
-      const booking = {
-        Id: Date.now(),
-        StudioId: this.selectedStudio?.Id,
-        UserId: 1,
-        Date: this.selectedDate,
-        StartTime: this.selectedTime,
-        EndTime: this.selectedTime,
-        Status: 'pending'
-      };
-      console.log('Booking details:', booking);
+    if (!this.selectedStudio || !this.userName || !this.userEmail || !this.selectedDate || !this.selectedTime) {
+      this.message = 'Please fill in all fields.';
+      return;
+    }
+
+    // Create user object
+    const user: User = {
+      Id: 1, // You might want to generate or get this from auth service
+      Name: this.userName,
+      Email: this.userEmail
+    };
+
+    // Create booking object that matches the interface
+    const booking: Booking = {
+      Id: 0, // Will be set by the service
+      StudioId: this.selectedStudio.Id,
+      User: user,
+      UserId: user.Id,
+      Date: this.selectedDate,
+      StartTime: this.selectedTime,
+      EndTime: this.selectedTime, // You might want to calculate end time based on duration
+      Status: 'pending'
+    };
+
+    // Call the service to add the booking
+    const success = this.bookingService.addBooking(booking);
+
+    if (success) {
+      console.log('Booking successful:', booking);
       this.message = 'Booking successful!';
       this.showBookingPopup = false;
-      this.selectedStudio = null;
+      this.resetForm();
     } else {
-      this.message = 'Please fill in all fields.';
+      this.message = 'Booking failed. Please try again.';
     }
+  }
+
+  resetForm(): void {
+    this.selectedStudio = null;
+    this.userName = '';
+    this.userEmail = '';
+    this.selectedDate = '';
+    this.selectedTime = '';
   }
 
   closePopup(): void {
     this.showBookingPopup = false;
-    this.selectedStudio = null;
+    this.resetForm();
   }
 
   onPageChange(newPage: number): void {
@@ -116,14 +147,14 @@ export class StudioListComponent implements OnInit {
   updatePagination(): void {
     this.totalPages = Math.ceil(this.filteredStudios.length / this.itemsPerPage);
     if (this.currentPage > this.totalPages) {
-      this.currentPage = this.totalPages; // If current page exceeds total pages, reset to the last page
+      this.currentPage = Math.max(1, this.totalPages); // Ensure we don't go below 1
     }
   }
 
   // Update displayed studios for the current page
   updateStudiosForCurrentPage(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.filteredStudios = this.filteredStudios.slice(startIndex, endIndex);
+    const endIndex = Math.min(startIndex + this.itemsPerPage, this.filteredStudios.length);
+    this.displayedStudios = this.filteredStudios.slice(startIndex, endIndex);
   }
 }

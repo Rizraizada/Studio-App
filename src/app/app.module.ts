@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule,
     SharedModule,
     StudiosModule,
-      BrowserAnimationsModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
   providers: [],

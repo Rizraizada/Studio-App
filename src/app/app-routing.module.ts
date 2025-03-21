@@ -12,7 +12,6 @@ const routes: Routes = [
       { path: '', redirectTo: 'studios', pathMatch: 'full' },
       { path: 'studios', component: StudioListComponent },
       { path: 'bookings', component: BookingListComponent }  // New route for booking list
-
     ]
   },
   { path: '**', redirectTo: '' }
@@ -20,6 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]  // This makes <router-outlet> available to AppModule
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

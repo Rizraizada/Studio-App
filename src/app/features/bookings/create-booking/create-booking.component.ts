@@ -25,18 +25,19 @@ export class CreateBookingComponent {
   @Output() selectedTimeChange = new EventEmitter<string>();
   @Output() messageChange = new EventEmitter<string>();
 
-  constructor(private toastr: ToastrService, private router: Router) {}
+  constructor(private toastr: ToastrService, private router: Router) {
+    console.log('CreateBookingComponent initialized');
+
+  }
 
   onBook(): void {
     this.book.emit();
     this.toastr.success('Your booking has been successfully created!', 'Booking Success');
     this.router.navigate(['/bookings']);
   }
-
   onCancel(): void {
     this.closePopup.emit();
   }
-
   onUserNameChange(value: string): void {
     this.userNameChange.emit(value);
   }

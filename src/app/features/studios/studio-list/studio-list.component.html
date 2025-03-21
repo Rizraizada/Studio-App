@@ -7,7 +7,7 @@
   <!-- Studio Cards Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
     <app-studio-card
-      *ngFor="let studio of filteredStudios"
+      *ngFor="let studio of displayedStudios"
       [studio]="studio"
       (book)="onBook(studio)">
     </app-studio-card>
