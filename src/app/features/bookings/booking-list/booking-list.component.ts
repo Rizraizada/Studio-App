@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BookingService } from '../../../core/services/booking.service';
 import { StudioService } from '../../../core/services/studio.service';
 import { Booking } from '../../../core/models/booking.model';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-booking-list',
@@ -12,45 +13,26 @@ import { Booking } from '../../../core/models/booking.model';
 export class BookingListComponent implements OnInit {
   bookings: Booking[] = [];
   studios: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5; // Number of items per page
+  totalPages: number = 1;
 
   constructor(
     private bookingService: BookingService,
     private studioService: StudioService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService // Inject ToastrService
   ) {}
 
   ngOnInit(): void {
     this.loadBookings();
     this.loadStudios();
-
-    // Subscribe to booking changes
-    this.bookingService.getBookingsObservable().subscribe(bookings => {
-      this.bookings = bookings;
-      // Ensure all bookings have User property
-      this.bookings.forEach(booking => {
-        if (!booking.User && booking.UserId) {
-          booking.User = {
-            Id: booking.UserId,
-            Name: 'Unknown User',
-            Email: 'no-email@example.com'
-          };
-        }
-      });
-    });
   }
 
   loadBookings(): void {
     this.bookings = this.bookingService.getBookings();
-    // Ensure all bookings have User property
-    this.bookings.forEach(booking => {
-      if (!booking.User && booking.UserId) {
-        booking.User = {
-          Id: booking.UserId,
-          Name: 'Unknown User',
-          Email: 'no-email@example.com'
-        };
-      }
-    });
+    this.totalPages = Math.ceil(this.bookings.length / this.itemsPerPage);
+    this.updateDisplayedBookings();
   }
 
   loadStudios(): void {
@@ -90,7 +72,24 @@ export class BookingListComponent implements OnInit {
         bookings[index].Status = 'cancelled';
         localStorage.setItem('bookings', JSON.stringify(bookings));
         booking.Status = 'cancelled';
+        this.toastr.success('Booking cancelled successfully!', 'Success'); // Show success toast
+        this.loadBookings(); // Refresh the bookings list
+      } else {
+        this.toastr.error('Failed to cancel booking.', 'Error'); // Show error toast
       }
     }
+  }
+
+  onPageChange(newPage: number): void {
+    if (newPage >= 1 && newPage <= this.totalPages) {
+      this.currentPage = newPage;
+      this.updateDisplayedBookings();
+    }
+  }
+
+  updateDisplayedBookings(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.bookings = this.bookingService.getBookings().slice(startIndex, endIndex);
   }
 }

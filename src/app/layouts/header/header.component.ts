@@ -1,3 +1,4 @@
+// src/app/layouts/header/header.component.ts
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,9 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  menuOpen: boolean = false;
+  menuOpen = false;
 
-  toggleMenu(): void {
+  toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 }

@@ -7,11 +7,13 @@
     font-size: 2rem;
     font-weight: bold;
     color: #4a5568;
+    margin-bottom: 1.5rem;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     th, td {
       padding: 12px;
@@ -19,18 +21,18 @@
     }
 
     th {
-      background-color: #edf2f7; /* Light background for headers */
+      background-color: #edf2f7;
       font-weight: 600;
-      color: #2d3748; /* Darker text for headers */
+      color: #2d3748;
     }
 
     td {
-      border-bottom: 1px solid #e2e8f0; /* Soft border for rows */
+      border-bottom: 1px solid #e2e8f0;
       color: #2d3748;
     }
 
     tr:hover {
-      background-color: #f7fafc; /* Hover effect for rows */
+      background-color: #f7fafc;
     }
   }
 
@@ -39,12 +41,38 @@
   }
 
   button:hover {
-    background-color: #3182ce; /* Darker blue on hover */
+    opacity: 0.9;
+  }
+
+  .pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      background-color: #edf2f7;
+      color: #4a5568;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #e2e8f0;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
   }
 
   @media (max-width: 768px) {
     table {
-      font-size: 0.875rem; /* Smaller font size on mobile */
+      font-size: 0.875rem;
     }
   }
 }

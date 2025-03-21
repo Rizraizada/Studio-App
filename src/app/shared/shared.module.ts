@@ -1,6 +1,8 @@
+// src/app/shared/shared.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router'; // Import RouterModule here
 
 import { StudiosCardComponent } from './components/studio-card/studio-card.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -21,7 +23,8 @@ import { BookingsModule } from '../features/bookings/bookings.module';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule // Add RouterModule here
   ],
   exports: [
     StudiosCardComponent,

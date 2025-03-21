@@ -1,3 +1,4 @@
+<!-- src/app/layouts/header/header.component.html -->
 <header class="header">
   <div class="header__container">
     <!-- Logo -->
@@ -9,13 +10,12 @@
     <nav class="header__nav desktop-nav">
       <a routerLink="/studios" class="header__link">Studios</a>
       <a routerLink="/bookings" class="header__link">Bookings</a>
-     </nav>
+    </nav>
   </div>
 
   <!-- Mobile Navigation -->
   <div *ngIf="menuOpen" class="header__mobile-nav mobile-only">
     <a routerLink="/studios" class="header__mobile-link" (click)="toggleMenu()">Studios</a>
     <a routerLink="/bookings" class="header__mobile-link" (click)="toggleMenu()">Bookings</a>
-    <a routerLink="/contact" class="header__mobile-link" (click)="toggleMenu()">Contact</a>
-   </div>
+  </div>
 </header>

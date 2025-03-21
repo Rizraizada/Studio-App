@@ -3,6 +3,7 @@ import { StudioService } from '../../../core/services/studio.service';
 import { Studio } from '../../../core/models/studio.model';
 import { BookingService } from '../../../core/services/booking.service';
 import { Booking, User } from '../../../core/models/booking.model';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-studios',
@@ -12,12 +13,11 @@ import { Booking, User } from '../../../core/models/booking.model';
 export class StudioListComponent implements OnInit {
   studios: Studio[] = [];
   filteredStudios: Studio[] = [];
-  displayedStudios: Studio[] = []; // New array for displayed studios
+  displayedStudios: Studio[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 6; // Changed from 9 to 6 studios per page
+  itemsPerPage: number = 6;
   totalPages: number = 1;
 
-  // Manage popup visibility and data
   showBookingPopup: boolean = false;
   selectedStudio: Studio | null = null;
   userName: string = '';
@@ -26,7 +26,11 @@ export class StudioListComponent implements OnInit {
   selectedTime: string = '';
   message: string = '';
 
-  constructor(private studioService: StudioService, private bookingService: BookingService) {}
+  constructor(
+    private studioService: StudioService,
+    private bookingService: BookingService,
+    private toastr: ToastrService // Inject ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.studioService.getStudios().subscribe((data: any) => {
@@ -37,17 +41,19 @@ export class StudioListComponent implements OnInit {
     });
   }
 
-  // Filter by location (area)
   onSearch(query: string): void {
     this.filteredStudios = this.studios.filter(studio =>
       studio.Location.Area.toLowerCase().includes(query.toLowerCase())
     );
-    this.currentPage = 1; // Reset to first page when searching
+    this.currentPage = 1;
     this.updatePagination();
     this.updateStudiosForCurrentPage();
+
+    if (this.filteredStudios.length === 0) {
+      this.toastr.warning('No studios found matching your search.', 'No Results'); // Show warning toast
+    }
   }
 
-  // Filter by radius search
   onSearchByRadius(params: { lat: number, lng: number, radius: number }): void {
     const { lat, lng, radius } = params;
     this.filteredStudios = this.studios.filter(studio => {
@@ -56,53 +62,51 @@ export class StudioListComponent implements OnInit {
       );
       return distance <= radius;
     });
-    this.currentPage = 1; // Reset to first page when searching
+    this.currentPage = 1;
     this.updatePagination();
     this.updateStudiosForCurrentPage();
   }
 
-  // Show booking popup and set selected studio
   onBook(studio: Studio): void {
     this.selectedStudio = studio;
     this.showBookingPopup = true;
   }
 
-  // Handle the booking confirmation
   bookStudio(): void {
     if (!this.selectedStudio || !this.userName || !this.userEmail || !this.selectedDate || !this.selectedTime) {
       this.message = 'Please fill in all fields.';
+      this.toastr.error('Please fill in all fields.', 'Error'); // Show error toast
       return;
     }
 
-    // Create user object
     const user: User = {
-      Id: 1, // You might want to generate or get this from auth service
+      Id: 1,
       Name: this.userName,
       Email: this.userEmail
     };
 
-    // Create booking object that matches the interface
     const booking: Booking = {
-      Id: 0, // Will be set by the service
+      Id: 0,
       StudioId: this.selectedStudio.Id,
       User: user,
       UserId: user.Id,
       Date: this.selectedDate,
       StartTime: this.selectedTime,
-      EndTime: this.selectedTime, // You might want to calculate end time based on duration
+      EndTime: this.selectedTime,
       Status: 'pending'
     };
 
-    // Call the service to add the booking
     const success = this.bookingService.addBooking(booking);
 
     if (success) {
       console.log('Booking successful:', booking);
       this.message = 'Booking successful!';
+      this.toastr.success('Booking successful!', 'Success'); // Show success toast
       this.showBookingPopup = false;
       this.resetForm();
     } else {
       this.message = 'Booking failed. Please try again.';
+      this.toastr.error('Booking failed. Please try again.', 'Error'); // Show error toast
     }
   }
 
@@ -138,20 +142,17 @@ export class StudioListComponent implements OnInit {
     return R * c;
   }
 
-  // Convert degrees to radians
   degreesToRadians(degrees: number): number {
     return degrees * (Math.PI / 180);
   }
 
-  // Update pagination values
   updatePagination(): void {
     this.totalPages = Math.ceil(this.filteredStudios.length / this.itemsPerPage);
     if (this.currentPage > this.totalPages) {
-      this.currentPage = Math.max(1, this.totalPages); // Ensure we don't go below 1
+      this.currentPage = Math.max(1, this.totalPages);
     }
   }
 
-  // Update displayed studios for the current page
   updateStudiosForCurrentPage(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = Math.min(startIndex + this.itemsPerPage, this.filteredStudios.length);
