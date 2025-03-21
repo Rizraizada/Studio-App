@@ -1,1 +1,41 @@
-<p>studio-search works!</p>
+<div class="p-4 bg-gray-100 rounded shadow">
+  <!-- Location Search -->
+  <div class="relative">
+    <input
+      type="text"
+      class="w-full p-2 border rounded"
+      placeholder="Search by location (Area)"
+      [(ngModel)]="searchQuery"
+      (input)="onSearchQueryChange()"
+    />
+    <div *ngIf="locationSuggestions.length > 0" class="absolute bg-white border w-full mt-1 rounded shadow">
+      <div
+        *ngFor="let suggestion of locationSuggestions"
+        class="p-2 hover:bg-gray-200 cursor-pointer"
+        (click)="onLocationSelect(suggestion)"
+      >
+        {{ suggestion }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Radius Selection -->
+  <div class="mt-4">
+    <label for="radius" class="text-gray-700 font-semibold">Search within radius:</label>
+    <select
+      id="radius"
+      [(ngModel)]="radius"
+      class="w-full p-2 border rounded mt-2"
+      (change)="onRadiusSearch()"
+    >
+      <option value="10">10 km</option>
+      <option value="20">20 km</option>
+      <option value="30">30 km</option>
+    </select>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="locationError" class="text-red-500 mt-2">
+    {{ locationError }}
+  </div>
+</div>

@@ -16,4 +16,9 @@ export class StudioService {
   getStudios(): Observable<Studio[]> {
     return this.http.get<Studio[]>(this.apiUrl);
   }
+
+  // Mock or real API-based location suggestions
+  getLocationSuggestions(query: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/locations?query=${query}`);
+  }
 }

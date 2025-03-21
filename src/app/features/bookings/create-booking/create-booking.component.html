@@ -1,1 +1,57 @@
-<p>create-booking works!</p>
+<div class="booking-popup">
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Book Studio: {{ studio?.Name }}</h2>
+
+  <div class="form-group">
+    <label for="userName" class="text-gray-700 font-medium">Name:</label>
+    <input
+      id="userName"
+      type="text"
+      [(ngModel)]="userName"
+      placeholder="Enter your name"
+      class="input-field"
+      (ngModelChange)="onUserNameChange($event)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="userEmail" class="text-gray-700 font-medium">Email:</label>
+    <input
+      id="userEmail"
+      type="email"
+      [(ngModel)]="userEmail"
+      placeholder="Enter your email"
+      class="input-field"
+      (ngModelChange)="onUserEmailChange($event)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="selectedDate" class="text-gray-700 font-medium">Date:</label>
+    <input
+      id="selectedDate"
+      type="date"
+      [(ngModel)]="selectedDate"
+      class="input-field"
+      (ngModelChange)="onSelectedDateChange($event)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="selectedTime" class="text-gray-700 font-medium">Time Slot:</label>
+    <select
+      id="selectedTime"
+      [(ngModel)]="selectedTime"
+      class="input-field"
+      (ngModelChange)="onSelectedTimeChange($event)"
+    >
+      <option *ngFor="let slot of getTimeSlots()" [value]="slot">{{ slot }}</option>
+    </select>
+  </div>
+
+  <p *ngIf="message" class="text-red-500 text-center mt-2">{{ message }}</p>
+
+  <div class="button-group">
+    <button (click)="onBook()" class="button confirm">Confirm Booking</button>
+    <button (click)="onCancel()" class="button cancel">Cancel</button>
+  </div>
+</div>

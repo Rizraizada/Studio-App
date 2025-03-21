@@ -1,11 +1,11 @@
+import { User } from '../../core/models/user.model';  // Import User if it's part of the Booking model
+
 export interface Booking {
   Id: number;
+  User: User;  // Reference to the User object
   StudioId: number;
-  UserId: number;
   Date: string;
   StartTime: string;
   EndTime: string;
-  TotalPrice: number;
-  Currency: string;
-  Status: 'pending' | 'confirmed' | 'cancelled';
+  Status: string;
 }

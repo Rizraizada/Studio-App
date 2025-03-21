@@ -8,6 +8,7 @@ import { StarRatingComponent } from './components/star-rating/star-rating.compon
 import { HeaderComponent } from '../layouts/header/header.component';
 import { FooterComponent } from '../layouts/footer/footer.component';
 import { MainLayoutComponent } from '../layouts/main-layout/main-layout.component';
+import { BookingsModule } from '../features/bookings/bookings.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MainLayoutComponent } from '../layouts/main-layout/main-layout.componen
     HeaderComponent,
     FooterComponent,
     MainLayoutComponent,
+    BookingsModule,
     FormsModule
   ]
 })

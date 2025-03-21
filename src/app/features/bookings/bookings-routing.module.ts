@@ -1,3 +1,4 @@
+// src/app/features/bookings/bookings-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookingListComponent } from './booking-list/booking-list.component';
@@ -5,9 +6,9 @@ import { BookingDetailComponent } from './booking-detail/booking-detail.componen
 import { CreateBookingComponent } from './create-booking/create-booking.component';
 
 const routes: Routes = [
-  { path: '', component: BookingListComponent }, // Default route for bookings
-  { path: 'new', component: CreateBookingComponent }, // Route for creating a booking
-  { path: ':id', component: BookingDetailComponent } // Dynamic route for booking details
+  { path: '', component: BookingListComponent },
+  { path: 'details/:id', component: BookingDetailComponent },
+  { path: 'create', component: CreateBookingComponent }
 ];
 
 @NgModule({

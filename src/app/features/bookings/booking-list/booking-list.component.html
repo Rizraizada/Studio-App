@@ -1,1 +1,32 @@
-<p>booking-list works!</p>
+<div class="booking-list">
+  <h2 class="text-2xl font-semibold mb-4 text-center">Booking List</h2>
+
+  <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-gray-100 text-gray-700">
+        <th class="py-3 px-6 text-left">User Name</th>
+        <th class="py-3 px-6 text-left">Email</th>
+        <th class="py-3 px-6 text-left">Studio ID</th>
+        <th class="py-3 px-6 text-left">Date</th>
+        <th class="py-3 px-6 text-left">Time</th>
+        <th class="py-3 px-6 text-left">Status</th>
+        <th class="py-3 px-6 text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings" class="hover:bg-gray-50 transition duration-300">
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.User.Name }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.User.Email }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.StudioId }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.Date }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.StartTime }} - {{ booking.EndTime }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">{{ booking.Status }}</td>
+        <td class="py-3 px-6 border-b text-gray-700">
+          <button (click)="viewBookingDetails(booking.Id)" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none transition duration-200">
+            View Details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

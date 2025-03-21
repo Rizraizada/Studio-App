@@ -1,17 +1,147 @@
+/* styles.scss or component-specific styles */
+
+/* Main container with responsive padding */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Animated header styling */
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #4caf50, #45a049);
+  border-radius: 2px;
+}
+
+/* Search bar wrapper */
+.search-wrapper {
+  margin-bottom: 2rem;
+}
+
+/* Studio grid with responsive design */
+.studio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Add space between cards and pagination */
+.studio-card-wrapper {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Pagination controls */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.page-indicator {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* Button styles */
 .btn {
-  padding: 0.5rem 1rem;
-  background-color: #3490dc;
+  padding: 0.75rem 1.5rem;
+  background-color: #4caf50;
   color: white;
+  font-size: 1rem;
+  font-weight: 600;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 9999px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-  background-color: #2779bd;
+  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn[disabled] {
   background-color: #e2e8f0;
+  color: #a0aec0;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-pagination {
+  padding: 0.5rem 1.25rem;
+}
+
+.btn .material-icons {
+  font-size: 1.25rem;
+  vertical-align: middle;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .studio-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 1rem;
+  }
 }

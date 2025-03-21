@@ -7,7 +7,8 @@
 
   <!-- Display location city and area -->
   <p class="text-sm text-gray-600">
-    {{ studio.Location?.City }}, {{ studio.Location?.Area }}
+<!-- Replace optional chaining with direct access -->
+{{ studio.Location.City }}, {{ studio.Location.Area }}
   </p>
 
   <!-- Display price per hour -->

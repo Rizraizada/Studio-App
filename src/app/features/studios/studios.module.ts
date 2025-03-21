@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StudioListComponent } from './studio-list/studio-list.component';
 import { SharedModule } from '../../shared/shared.module';
+import { BookingsModule } from '../bookings/bookings.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    BookingsModule
   ],
   exports: [
     StudioListComponent
